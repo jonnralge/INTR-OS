@@ -16,7 +16,7 @@ public class Station {
 	
 	public synchronized void addTrainIntoStation(Train train) {
 		currentTrain = train;
-		System.out.println("train " + train.getName() + " loaded in station");
+		System.out.println("Train " + train.getName() + " loaded in station " + this.id);
 		//notify();
 	}
 	
@@ -25,7 +25,7 @@ public class Station {
 	}
 	
 	public synchronized void removeTrain() {
-		System.out.println("train " + currentTrain.getName() + "left the station");
+		System.out.println("Train " + currentTrain.getName() + " left the station " + this.id);
 		currentTrain = null;
 		notify();
 	}
@@ -48,5 +48,10 @@ public class Station {
 	public synchronized Passenger removeAndGetPassenger() {
 		// TODO Auto-generated method stub
 		return passengers.remove(0);
+	}
+
+	public int getId() {
+		// TODO Auto-generated method stub
+		return this.id;
 	}
 }

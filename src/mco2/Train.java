@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Train extends Thread {
 	private int position; //Where train currently is
 	ArrayList<Passenger> passengers;
-    private final int id;
+    private final long id;
     private final int passengerCapacity;
     private int previousPos;
 	    
@@ -14,6 +14,7 @@ public class Train extends Thread {
 	        this.position     	   = position;
 	        this.passengers        = new ArrayList<Passenger>();
 	        this.passengerCapacity = passengerCapacity;
+	        this.previousPos = position;
 	    }
 		
 	  	@Override
@@ -47,9 +48,11 @@ public class Train extends Thread {
 				int passengersToGet = Math.min(
 						passengerCapacity - passengers.size(),
 						station.getPassengers().size());
-				System.out.println(passengersToGet);
+				System.out.println("Adding " + passengersToGet + " passengers");
 				for (int i = 0; i < passengersToGet ; i++) {
-					passengers.add(station.removeAndGetPassenger());
+					Passenger p = station.removeAndGetPassenger();
+					passengers.add(p);
+					System.out.println("Passenger added " + p.getId());
 				}
 	    		try {
 	        		Thread.sleep(10); // simulates small time wait    			
@@ -59,6 +62,19 @@ public class Train extends Thread {
 			//} // synchronized on the station
 	    		notify();
 		}
+	  	
+	  	public synchronized void unloadTrain(Station station) {
+	  		System.out.println("Unloading train");
+	  		ArrayList<Passenger> passengersToRemove = new ArrayList();
+	  		for (Passenger p : passengers) {
+	  			if(p.getDestination() == station.getId()) {
+	  				passengersToRemove.add(p);
+	  				System.out.println("Passenger " + p.getId() + " has arrived at destination");
+	  			}
+	  		}
+	  		passengers.remove(passengersToRemove);
+	  	}
+	  	
 		public long getId() {
 			return this.id;
 		}

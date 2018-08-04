@@ -48,21 +48,23 @@ public class threadTest {
 		ArrayList<Train> trains = new ArrayList<Train>();
 		Station[] stations = new Station[2];
  		Station station1 = new Station(0, 2);
-		Station station2 = new Station(1, 4);
+		Station station2 = new Station(1, 10);
 		
 		stations[0] = station1;
 		stations[1] = station2;
-		Passenger passenger1 = new Passenger(0, 1, 2);
-		Passenger passenger2 = new Passenger(1, 1, 2);
+		Passenger passenger1 = new Passenger(0, 0, 1);
+		Passenger passenger2 = new Passenger(1, 0, 1);
+		Passenger passenger3 = new Passenger(2, 1, 0);
+		Passenger passenger4 = new Passenger(3, 1, 0);
 		Train train1 = new Train(0, 0, 20);
-		//Train train2 = new Train(1, 1, 20);
+		Train train2 = new Train(1, 5, 20);
 		//Train train3 = new Train(2, 2, 20);
 		
 		trains.add(train1);
-		//trains.add(train2);
+		trains.add(train2);
 		//trains.add(train3);
 		railroad[0] = train1;
-		//railroad[1] = train2;
+		railroad[1] = train2;
 		//railroad[2] = train3;
 		
 		Thread runnable = new Thread(){
@@ -70,9 +72,11 @@ public class threadTest {
 			public synchronized void run(){
 				station1.addWaitingPassenger(passenger1);
 				station1.addWaitingPassenger(passenger2);
+				station2.addWaitingPassenger(passenger3);
+				station2.addWaitingPassenger(passenger4);
 				while(true){
 					for(Train train : trains) {
-						if (railroad[train.getPrevPosition()].getId() == train.getId())
+						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
 							railroad[train.getPrevPosition()] = null;
 						railroad[train.getPosition()] =  train;
 						
@@ -81,7 +85,9 @@ public class threadTest {
 							if (train.getPosition() == station.getPosition())
 							{
 								station.addTrainIntoStation(train);
-								train.loadTrain(station);
+								if (station.getPassengers().size() != 0)
+									train.loadTrain(station);
+								train.unloadTrain(station);
 //								try {
 //									System.out.println("Waiting for passengers to finish boarding");
 //									wait();
@@ -129,7 +135,7 @@ public class threadTest {
 //			}
 //		};
 		train1.start();
-		//train2.start();
+		train2.start();
 		//train3.start();
 		runnable.start();
 		
