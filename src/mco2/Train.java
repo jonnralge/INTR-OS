@@ -16,14 +16,29 @@ public class Train extends Thread {
 	        this.passengerCapacity = passengerCapacity;
 	    }
 	  
-		public synchronized void loadTrain(Station station, int availableSeats) {
+		public synchronized void loadTrain(Station station) {
 			//while there are still passengers waiting, and there are available seats, load train
+			//synchronized(station) {
+				System.out.println("Loading train with passengers");
+				int passengersToGet = Math.min(
+						passengerCapacity - passengers.size(),
+						station.getPassengers().size());
+				for (int i=0 ; i < passengersToGet ; i++) {
+					passengers.add(station.removeAndGetPassenger());
+				}
+	    		try {
+	        		Thread.sleep(10); // simulates small time wait    			
+	    		} catch (Exception e) {
+	    			e.printStackTrace();
+	    		}
+			//} // synchronized on the station
+	    		notify();
 		}
 		
 		public synchronized void run() {
 			while(true)
 			{
-		    	System.out.println("Train started: "+ toString() );
+		    	//System.out.println("Train started: "+ toString() );
 				setName("Train. " + id);  // i.e. Train.0
 				previousPos = position;
 		    	position++;

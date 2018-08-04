@@ -17,10 +17,7 @@ public class Station {
 	public synchronized void loadTrain(Train train) {
 		currentTrain = train;
 		System.out.println("train " + train.getName() + " loaded in station");
-		for(Passenger p : passengers) {
-			p.boardTrain(this);
-			System.out.println("Passenger " + p.getId() + " has boarded train " + train.getName());
-		}
+		train.loadTrain(this);
 		notify();
 	}
 	
@@ -32,13 +29,21 @@ public class Station {
 	
 	public synchronized void addWaitingPassenger(Passenger p) {
 		passengers.add(p);
+		System.out.println("Passenger " + p.getId() + " added");
 	}
 	
-	public synchronized void passengerBoardTrain(Passenger p) {
-		passengers.remove(p);
-	}
 	
 	public int getPosition(){
 		return this.position;
+	}
+
+	public ArrayList<Passenger> getPassengers() {
+		// TODO Auto-generated method stub
+		return passengers;
+	}
+
+	public synchronized Passenger removeAndGetPassenger() {
+		// TODO Auto-generated method stub
+		return passengers.remove(0);
 	}
 }
