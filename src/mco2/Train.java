@@ -15,27 +15,9 @@ public class Train extends Thread {
 	        this.passengers        = new ArrayList<Passenger>();
 	        this.passengerCapacity = passengerCapacity;
 	    }
-	  
-		public synchronized void loadTrain(Station station) {
-			//while there are still passengers waiting, and there are available seats, load train
-			//synchronized(station) {
-				System.out.println("Loading train with passengers");
-				int passengersToGet = Math.min(
-						passengerCapacity - passengers.size(),
-						station.getPassengers().size());
-				for (int i=0 ; i < passengersToGet ; i++) {
-					passengers.add(station.removeAndGetPassenger());
-				}
-	    		try {
-	        		Thread.sleep(10); // simulates small time wait    			
-	    		} catch (Exception e) {
-	    			e.printStackTrace();
-	    		}
-			//} // synchronized on the station
-	    		notify();
-		}
 		
-		public synchronized void run() {
+	  	@Override
+		public void run() {
 			while(true)
 			{
 		    	//System.out.println("Train started: "+ toString() );
@@ -46,7 +28,6 @@ public class Train extends Thread {
 		    		position = 0;
 		    	if (previousPos == 18)
 		    		previousPos = 0;
-		    	notifyAll();
 		    	//System.out.println(position);
 		    	try {
 					Thread.sleep(1000);
@@ -57,9 +38,27 @@ public class Train extends Thread {
 			}
 	    	// here we simulate the train status
 			// a Train always starts in a station
-	    	
 	    }
 		
+	  	public synchronized void loadTrain(Station station) {
+			//while there are still passengers waiting, and there are available seats, load train
+			//synchronized(station) {
+				System.out.println("Loading train with passengers");
+				int passengersToGet = Math.min(
+						passengerCapacity - passengers.size(),
+						station.getPassengers().size());
+				System.out.println(passengersToGet);
+				for (int i = 0; i < passengersToGet ; i++) {
+					passengers.add(station.removeAndGetPassenger());
+				}
+	    		try {
+	        		Thread.sleep(10); // simulates small time wait    			
+	    		} catch (Exception e) {
+	    			e.printStackTrace();
+	    		}
+			//} // synchronized on the station
+	    		notify();
+		}
 		public long getId() {
 			return this.id;
 		}
@@ -73,5 +72,9 @@ public class Train extends Thread {
 		
 		public void setPosition(int pos){
 			this.position = pos;
+		}
+		
+		public int getPassengerCount(){
+			return this.passengers.size();
 		}
 }

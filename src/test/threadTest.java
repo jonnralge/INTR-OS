@@ -80,14 +80,15 @@ public class threadTest {
 							//System.out.println(station.getPosition() + " " + train.getPosition());
 							if (train.getPosition() == station.getPosition())
 							{
-								station.loadTrain(train);
-								try {
-									System.out.println("Waiting for passengers to finish boarding");
-									wait();
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+								station.addTrainIntoStation(train);
+								train.loadTrain(station);
+//								try {
+//									System.out.println("Waiting for passengers to finish boarding");
+//									wait();
+//								} catch (InterruptedException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
 								station.removeTrain();
 							}
 						}

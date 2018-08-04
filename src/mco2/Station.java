@@ -14,11 +14,14 @@ public class Station {
 		passengers    = new ArrayList<Passenger>();
 	}
 	
-	public synchronized void loadTrain(Train train) {
+	public synchronized void addTrainIntoStation(Train train) {
 		currentTrain = train;
 		System.out.println("train " + train.getName() + " loaded in station");
-		train.loadTrain(this);
-		notify();
+		//notify();
+	}
+	
+	public synchronized void loadTrainWithPassengers() {
+		currentTrain.loadTrain(this);
 	}
 	
 	public synchronized void removeTrain() {
