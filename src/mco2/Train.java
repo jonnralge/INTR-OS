@@ -48,7 +48,10 @@ public class Train extends Thread {
 				int passengersToGet = Math.min(
 						passengerCapacity - passengers.size(),
 						station.getPassengers().size());
-				System.out.println("Adding " + passengersToGet + " passengers");
+				if (passengersToGet == 0)
+					System.out.println("Train is full");
+				else
+					System.out.println("Adding " + passengersToGet + " passengers");
 				for (int i = 0; i < passengersToGet ; i++) {
 					Passenger p = station.removeAndGetPassenger();
 					passengers.add(p);

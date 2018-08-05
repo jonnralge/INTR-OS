@@ -1,8 +1,7 @@
 package test;
 import mco2.Train;
-
 import java.util.ArrayList;
-
+import java.util.concurrent.ThreadLocalRandom;
 import mco2.Passenger;
 import mco2.Station;
 
@@ -46,12 +45,16 @@ public class threadTest {
 //		runner2.start();
 		Train[] railroad = new Train[18];
 		ArrayList<Train> trains = new ArrayList<Train>();
-		Station[] stations = new Station[2];
+		ArrayList<Station> stations = new ArrayList<Station>();
  		Station station1 = new Station(0, 2);
 		Station station2 = new Station(1, 10);
+		Station station3 = new Station(2, 6);
+		Station station4 = new Station(3, 16);
 		
-		stations[0] = station1;
-		stations[1] = station2;
+		stations.add(station1);
+		stations.add(station2);
+		stations.add(station3);
+		stations.add(station4);
 		Passenger passenger1 = new Passenger(0, 0, 1);
 		Passenger passenger2 = new Passenger(1, 0, 1);
 		Passenger passenger3 = new Passenger(2, 1, 0);
@@ -74,7 +77,22 @@ public class threadTest {
 				station1.addWaitingPassenger(passenger2);
 				station2.addWaitingPassenger(passenger3);
 				station2.addWaitingPassenger(passenger4);
+				int idCounter = 3;
+				int randStart = 0;
+				int randDestination = 0;
+				int min = 0;
+				int max = 3;
 				while(true){
+					idCounter++;
+					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+					while(randStart == randDestination) {
+						randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+					}
+					
+					Passenger p = new Passenger(idCounter, randStart, randDestination);
+					stations.get(randStart).addWaitingPassenger(p);
 					for(Train train : trains) {
 						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
 							railroad[train.getPrevPosition()] = null;
