@@ -17,7 +17,7 @@ public class Station {
 	public synchronized void addTrainIntoStation(Train train) {
 		currentTrain = train;
 		System.out.println("Train " + train.getName() + " loaded in station " + this.id);
-		//notify();
+		notify();
 	}
 	
 	public synchronized void loadTrainWithPassengers() {

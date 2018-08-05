@@ -43,13 +43,13 @@ public class Train extends Thread {
 		
 	  	public synchronized void loadTrain(Station station) {
 			//while there are still passengers waiting, and there are available seats, load train
-			//synchronized(station) {
+			synchronized(station) {
 				System.out.println("Loading train with passengers");
 				int passengersToGet = Math.min(
 						passengerCapacity - passengers.size(),
 						station.getPassengers().size());
 				if (passengersToGet == 0)
-					System.out.println("Train is full");
+					System.out.println("Train " + this.id +" is full");
 				else
 					System.out.println("Adding " + passengersToGet + " passengers");
 				for (int i = 0; i < passengersToGet ; i++) {
@@ -62,12 +62,14 @@ public class Train extends Thread {
 	    		} catch (Exception e) {
 	    			e.printStackTrace();
 	    		}
-			//} // synchronized on the station
-	    		notify();
+	    		notifyAll();
+			} // synchronized on the station
+	    		
 		}
 	  	
 	  	public synchronized void unloadTrain(Station station) {
-	  		System.out.println("Unloading train");
+	  		if(passengers.size() != 0)
+	  			System.out.println("Unloading train");
 	  		ArrayList<Passenger> passengersToRemove = new ArrayList();
 	  		for (Passenger p : passengers) {
 	  			if(p.getDestination() == station.getId()) {

@@ -61,14 +61,15 @@ public class threadTest {
 		Passenger passenger4 = new Passenger(3, 1, 0);
 		Train train1 = new Train(0, 0, 20);
 		Train train2 = new Train(1, 5, 20);
-		//Train train3 = new Train(2, 2, 20);
+		Train train3 = new Train(2, 2, 20);
 		
 		trains.add(train1);
 		trains.add(train2);
-		//trains.add(train3);
-		railroad[0] = train1;
-		railroad[1] = train2;
-		//railroad[2] = train3;
+		trains.add(train3);
+//		railroad[0] = train1;
+//		railroad[1] = train2;
+//		railroad[2] = train3;
+		
 		
 		Thread runnable = new Thread(){
 			@Override
@@ -77,6 +78,41 @@ public class threadTest {
 				station1.addWaitingPassenger(passenger2);
 				station2.addWaitingPassenger(passenger3);
 				station2.addWaitingPassenger(passenger4);
+				int idCounter = 3;
+				int randStart = 0;
+				int randDestination = 0;
+				int min = 0;
+				int max = 3;
+				while(true){
+					//Passenger p = new Passenger(idCounter, randStart, randDestination);
+					//stations.get(randStart).addWaitingPassenger(p);
+					for(Train train : trains) {			
+						for(Station station : stations) {
+							//System.out.println(station.getPosition() + " " + train.getPosition());
+							if (train.getPosition() == station.getPosition())
+							{
+								station.addTrainIntoStation(train);
+								train.unloadTrain(station);
+								if (station.getPassengers().size() != 0)
+									train.loadTrain(station);				
+							}
+						}
+					}
+					//notify();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}
+		};
+		
+		Thread runnable2 = new Thread(){
+			@Override
+			public synchronized void run(){
 				int idCounter = 3;
 				int randStart = 0;
 				int randDestination = 0;
@@ -97,37 +133,15 @@ public class threadTest {
 						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
 							railroad[train.getPrevPosition()] = null;
 						railroad[train.getPosition()] =  train;
-						
-						for(Station station : stations) {
-							//System.out.println(station.getPosition() + " " + train.getPosition());
-							if (train.getPosition() == station.getPosition())
-							{
-								station.addTrainIntoStation(train);
-								if (station.getPassengers().size() != 0)
-									train.loadTrain(station);
-								train.unloadTrain(station);
-//								try {
-//									System.out.println("Waiting for passengers to finish boarding");
-//									wait();
-//								} catch (InterruptedException e) {
-//									// TODO Auto-generated catch block
-//									e.printStackTrace();
-//								}
-								station.removeTrain();
-							}
-						}
 					}
-					
 					System.out.println(represent(railroad));
-					//notify();
-					
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+					notify();
 				}
 			}
 		};
@@ -154,9 +168,9 @@ public class threadTest {
 //		};
 		train1.start();
 		train2.start();
-		//train3.start();
+		train3.start();
 		runnable.start();
-		
+		runnable2.start();
 		//train2.start();
 	}
 }
