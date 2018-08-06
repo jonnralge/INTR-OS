@@ -1,13 +1,14 @@
 package test;
 import mco2.Train;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import mco2.Passenger;
 import mco2.Station;
 
 public class threadTest {
 	static int counter = 0;
-	
+	static Scanner sc = new Scanner(System.in);
 	static class Runner extends Thread {
 		@Override
 		public synchronized void run(){
@@ -36,6 +37,11 @@ public class threadTest {
 		}
 		return sb.toString();
 	}
+	
+//	Here's the logic for adding a train, it adds a train in the first free space it sees in the railroad, but yeah
+//			it's hard to test without GUI, also needs to keep
+			
+			
 	public static void main(String args[]) {
 		
 //		Runner runner = new Runner();
@@ -55,16 +61,19 @@ public class threadTest {
 
 
 		int trainPosition = 1, capacity = 30;
-		for(int i = 0; i < 16; i++) {
-			Train t = new Train(i, trainPosition, capacity);
-			trainPosition += 2;
-			trains.add(t);
-		}
+//		for(int i = 0; i < 16; i++) {
+//			Train t = new Train(i, trainPosition, capacity);
+//			trainPosition += 2;
+//			trains.add(t);
+//		}
 		
 		
 		Thread runnable = new Thread(){
 			@Override
 			public synchronized void run(){
+				int trainId = 0;
+				int numSeats = 0;
+				int freePosition = 0;
 				while(true){
 					//Passenger p = new Passenger(idCounter, randStart, randDestination);
 					//stations.get(randStart).addWaitingPassenger(p);
@@ -99,7 +108,8 @@ public class threadTest {
 				int randStart = 0;
 				int randDestination = 0;
 				int min = 0;
-				int max = 7;
+				int max = 7;			
+				
 				while(true){
 					idCounter++;
 					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -111,6 +121,7 @@ public class threadTest {
 					
 					Passenger p = new Passenger(idCounter, randStart, randDestination);
 					stations.get(randStart).addWaitingPassenger(p);
+					
 					for(Train train : trains) {
 						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
 							railroad[train.getPrevPosition()] = null;
@@ -125,6 +136,30 @@ public class threadTest {
 					}
 					notify();
 				}
+			}
+			//Here's the function for adding a train, it's hard to test properly without the GUI but yeah all the logic is here
+			public synchronized void addTrain() {
+				int trainId = 0;
+				int numSeats = 0;
+				int freePosition = 0;
+				int choice = sc.nextInt();
+				if(choice == 1) {
+					System.out.print("How many seats for the new train? ");
+					numSeats = sc.nextInt();
+					while(numSeats < 0) {
+						System.out.println("Invalid input.\nHow many seats for the new train? ");
+						numSeats = sc.nextInt();
+					}
+					for(int i = 0; i < railroad.length; i++) {
+						if(railroad[i] == null)
+							freePosition = i;
+					}
+					Train t = new Train(trainId, freePosition, numSeats);
+					trainId++;
+					t.start();
+					trains.add(t);
+				}
+				notifyAll();
 			}
 		};
 		
