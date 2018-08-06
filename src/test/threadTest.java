@@ -1,30 +1,68 @@
 package test;
 import mco2.Train;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 import mco2.Passenger;
 import mco2.Station;
 
-public class threadTest {
-	static int counter = 0;
+public class threadTest extends JFrame {
+	
+	
 	static Scanner sc = new Scanner(System.in);
-	static class Runner extends Thread {
-		@Override
-		public synchronized void run(){
-			for (int i = 0; i < 5; i++)
-			{
-				counter++;
-				System.out.println("yes " + counter);
-				
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+	static Train[] railroad = new Train[33];
+	static ArrayList<Train> trains = new ArrayList<Train>();
+	static ArrayList<Station> stations = new ArrayList<Station>();
+	static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
+	
+	public threadTest() {
+		GridLayout test = new GridLayout(0,2);
+		this.setSize(500,500);
+		this.setLayout(test);
+		JButton addATrain = new JButton("Add a train");
+		JLabel totalSeats = new JLabel("How many seats? ");
+		JTextField seats = new JTextField();
+		seats.setSize(100, 200);
+		addATrain.addActionListener(new ActionListener() {
+			int trainCounter = 0;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (trains.size() == 16)
+					System.out.println("Max trains deployed");
+				else {
+					System.out.println("Pressed");
+					int numSeats = Integer.parseInt(seats.getText());
+					int freePosition = 0;
+					
+					for(int i = 0; i < railroad.length; i++) {
+						if(railroad[i] == null)
+							freePosition = i;
+					}
+					Train t = new Train(trainCounter + 1, freePosition, numSeats);
+					trainCounter++;
+					t.start();
+					trains.add(t);
 				}
 			}
-		}
+			
+		});
+		addATrain.setEnabled(true);
+		addATrain.setVisible(true);
+		this.add(addATrain);
+		this.add(totalSeats);
+		this.add(seats);
+		this.setVisible(true);
 	}
 	
 	public static String represent(Train[] railroad) {
@@ -38,10 +76,6 @@ public class threadTest {
 		return sb.toString();
 	}
 	
-//	Here's the logic for adding a train, it adds a train in the first free space it sees in the railroad, but yeah
-//			it's hard to test without GUI, also needs to keep
-			
-			
 	public static void main(String args[]) {
 		
 //		Runner runner = new Runner();
@@ -49,54 +83,60 @@ public class threadTest {
 //		
 //		Runner runner2 = new Runner();
 //		runner2.start();
-		Train[] railroad = new Train[33];
-		ArrayList<Train> trains = new ArrayList<Train>();
-		ArrayList<Station> stations = new ArrayList<Station>();
+		
 		int position = 0;
 		for(int i = 0; i < 8; i++) {
 			Station s = new Station(i, position);
 			position += 4;
 			stations.add(s);
 		}
-
-
-		int trainPosition = 1, capacity = 30;
+		
+		
+		
 //		for(int i = 0; i < 16; i++) {
-//			Train t = new Train(i, trainPosition, capacity);
-//			trainPosition += 2;
-//			trains.add(t);
+////			System.out.println("Input capacity for train " + (i + 1));
+////			trainCapacities.add(sc.nextInt());
+////			sc.nextLine();
+//			trainCapacities.add(20);
 //		}
 		
 		
 		Thread runnable = new Thread(){
+			int trainCounter = 0;
 			@Override
 			public synchronized void run(){
 				int trainId = 0;
 				int numSeats = 0;
 				int freePosition = 0;
+				
+				int idCounter = 0;
+				int randStart = 0;
+				int randDestination = 0;
+				int min = 0;
+				int max = 7;
 				while(true){
-					//Passenger p = new Passenger(idCounter, randStart, randDestination);
-					//stations.get(randStart).addWaitingPassenger(p);
-					for(Train train : trains) {			
-						for(Station station : stations) {
-							//System.out.println(station.getPosition() + " " + train.getPosition());
-							if (train.getPosition() == station.getPosition())
-							{
-								station.addTrainIntoStation(train);
-								train.unloadTrain(station);
-								if (station.getPassengers().size() != 0)
-									train.loadTrain(station);				
+						//Passenger p = new Passenger(idCounter, randStart, randDestination);
+						//stations.get(randStart).addWaitingPassenger(p);
+						for(Train train : trains) {			
+							for(Station station : stations) {
+								//System.out.println(station.getPosition() + " " + train.getPosition());
+								if (train.getPosition() == station.getPosition())
+								{
+									station.addTrainIntoStation(train);
+									train.unloadTrain(station);
+									if (station.getPassengers().size() != 0)
+										train.loadTrain(station);				
+								}
 							}
 						}
-					}
-					//notify();
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
+						//notify();
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					//}
 				}
 			}
 		};
@@ -137,30 +177,6 @@ public class threadTest {
 					notify();
 				}
 			}
-			//Here's the function for adding a train, it's hard to test properly without the GUI but yeah all the logic is here
-			public synchronized void addTrain() {
-				int trainId = 0;
-				int numSeats = 0;
-				int freePosition = 0;
-				int choice = sc.nextInt();
-				if(choice == 1) {
-					System.out.print("How many seats for the new train? ");
-					numSeats = sc.nextInt();
-					while(numSeats < 0) {
-						System.out.println("Invalid input.\nHow many seats for the new train? ");
-						numSeats = sc.nextInt();
-					}
-					for(int i = 0; i < railroad.length; i++) {
-						if(railroad[i] == null)
-							freePosition = i;
-					}
-					Train t = new Train(trainId, freePosition, numSeats);
-					trainId++;
-					t.start();
-					trains.add(t);
-				}
-				notifyAll();
-			}
 		};
 		
 //		Thread runnable2 = new Thread(){
@@ -183,9 +199,10 @@ public class threadTest {
 //				}
 //			}
 //		};
-		for(Train t : trains) {
-			t.start();
-		}
+//		for(Train t : trains) {
+//			t.start();
+//		}
+		new threadTest();
 		runnable.start();
 		runnable2.start();
 		//train2.start();
