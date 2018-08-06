@@ -43,46 +43,28 @@ public class threadTest {
 //		
 //		Runner runner2 = new Runner();
 //		runner2.start();
-		Train[] railroad = new Train[18];
+		Train[] railroad = new Train[33];
 		ArrayList<Train> trains = new ArrayList<Train>();
 		ArrayList<Station> stations = new ArrayList<Station>();
- 		Station station1 = new Station(0, 2);
-		Station station2 = new Station(1, 10);
-		Station station3 = new Station(2, 6);
-		Station station4 = new Station(3, 16);
-		
-		stations.add(station1);
-		stations.add(station2);
-		stations.add(station3);
-		stations.add(station4);
-		Passenger passenger1 = new Passenger(0, 0, 1);
-		Passenger passenger2 = new Passenger(1, 0, 1);
-		Passenger passenger3 = new Passenger(2, 1, 0);
-		Passenger passenger4 = new Passenger(3, 1, 0);
-		Train train1 = new Train(0, 0, 20);
-		Train train2 = new Train(1, 5, 20);
-		Train train3 = new Train(2, 2, 20);
-		
-		trains.add(train1);
-		trains.add(train2);
-		trains.add(train3);
-//		railroad[0] = train1;
-//		railroad[1] = train2;
-//		railroad[2] = train3;
+		int position = 0;
+		for(int i = 0; i < 8; i++) {
+			Station s = new Station(i, position);
+			position += 4;
+			stations.add(s);
+		}
+
+
+		int trainPosition = 1, capacity = 30;
+		for(int i = 0; i < 16; i++) {
+			Train t = new Train(i, trainPosition, capacity);
+			trainPosition += 2;
+			trains.add(t);
+		}
 		
 		
 		Thread runnable = new Thread(){
 			@Override
 			public synchronized void run(){
-				station1.addWaitingPassenger(passenger1);
-				station1.addWaitingPassenger(passenger2);
-				station2.addWaitingPassenger(passenger3);
-				station2.addWaitingPassenger(passenger4);
-				int idCounter = 3;
-				int randStart = 0;
-				int randDestination = 0;
-				int min = 0;
-				int max = 3;
 				while(true){
 					//Passenger p = new Passenger(idCounter, randStart, randDestination);
 					//stations.get(randStart).addWaitingPassenger(p);
@@ -113,11 +95,11 @@ public class threadTest {
 		Thread runnable2 = new Thread(){
 			@Override
 			public synchronized void run(){
-				int idCounter = 3;
+				int idCounter = 0;
 				int randStart = 0;
 				int randDestination = 0;
 				int min = 0;
-				int max = 3;
+				int max = 7;
 				while(true){
 					idCounter++;
 					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -166,9 +148,9 @@ public class threadTest {
 //				}
 //			}
 //		};
-		train1.start();
-		train2.start();
-		train3.start();
+		for(Train t : trains) {
+			t.start();
+		}
 		runnable.start();
 		runnable2.start();
 		//train2.start();

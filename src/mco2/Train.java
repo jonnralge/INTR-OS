@@ -25,9 +25,9 @@ public class Train extends Thread {
 				setName("Train. " + id);  // i.e. Train.0
 				previousPos = position;
 		    	position++;
-		    	if (position == 18)
+		    	if (position == 33)
 		    		position = 0;
-		    	if (previousPos == 18)
+		    	if (previousPos == 33)
 		    		previousPos = 0;
 		    	//System.out.println(position);
 		    	try {

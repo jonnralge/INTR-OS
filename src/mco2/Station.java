@@ -9,7 +9,7 @@ public class Station {
 	private ArrayList<Passenger> passengers;
 	
 	public Station(int id, int position) {
-		this.id 	  = id;
+		this.id 	  = id + 1; 
 		this.position = position;
 		passengers    = new ArrayList<Passenger>();
 	}
