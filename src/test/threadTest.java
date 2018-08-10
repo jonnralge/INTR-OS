@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,7 +21,7 @@ public class threadTest extends JFrame {
 	
 	
 	static Scanner sc = new Scanner(System.in);
-	static Train[] railroad = new Train[33];
+	static Train[] railroad = new Train[16];
 	static ArrayList<Train> trains = new ArrayList<Train>();
 	static ArrayList<Station> stations = new ArrayList<Station>();
 	static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
@@ -33,6 +34,7 @@ public class threadTest extends JFrame {
 		JLabel totalSeats = new JLabel("How many seats? ");
 		JTextField seats = new JTextField();
 		seats.setSize(100, 200);
+		JButton addAPassenger = new JButton("Add a passenger");
 		addATrain.addActionListener(new ActionListener() {
 			int trainCounter = 0;
 			@Override
@@ -46,28 +48,61 @@ public class threadTest extends JFrame {
 					int freePosition = 0;
 					
 					for(int i = 0; i < railroad.length; i++) {
-						if(railroad[i] == null)
+						if(railroad[i] == null) {
 							freePosition = i;
+							break;
+						}
 					}
 					Train t = new Train(trainCounter + 1, freePosition, numSeats);
 					trainCounter++;
-					t.start();
 					trains.add(t);
+					t.start();
 				}
 			}
 			
+		});
+		addAPassenger.addActionListener(new ActionListener() {
+			int idCounter = 0;
+			int randStart = 0;
+			int randDestination = 0;
+			int min = 1;
+			int max = 8;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				idCounter++;
+				randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+				randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+				
+				while(randStart == randDestination) {
+					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+				}
+				System.out.println(randStart + " " + randDestination);
+//				Passenger p = new Passenger(idCounter, Train.stations.get(randStart - 1), randDestination);
+				Passenger p = new Passenger(idCounter, Train.stations.get(2), Train.stations.get(4));
+
+				Train.stations.get(2).addWaitingPassenger(p);
+				p.run();
+			}
 		});
 		addATrain.setEnabled(true);
 		addATrain.setVisible(true);
 		this.add(addATrain);
 		this.add(totalSeats);
 		this.add(seats);
+		this.add(addAPassenger);
 		this.setVisible(true);
 	}
 	
-	public static String represent(Train[] railroad) {
+	public static String represent() {
+		Arrays.fill(railroad, null);
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < railroad.length; i++){
+		for(int i = 0; i < trains.size(); i++){
+			if (trains.get(i) == null)
+				railroad[trains.get(i).getPosition()] = trains.get(i);
+		}
+		
+		for (int i = 0; i < railroad.length; i ++) {
 			if (railroad[i] == null)
 				sb.append("=");
 			else
@@ -84,15 +119,19 @@ public class threadTest extends JFrame {
 //		Runner runner2 = new Runner();
 //		runner2.start();
 		
-		int position = 0;
-		for(int i = 0; i < 8; i++) {
-			Station s = new Station(i, position);
-			position += 4;
-			stations.add(s);
+		new threadTest();
+		Train.initializeStations();
+			
+		while (true) {
+				
+			System.out.println(represent());
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		
-		
 //		for(int i = 0; i < 16; i++) {
 ////			System.out.println("Input capacity for train " + (i + 1));
 ////			trainCapacities.add(sc.nextInt());
@@ -101,84 +140,76 @@ public class threadTest extends JFrame {
 //		}
 		
 		
-		Thread runnable = new Thread(){
-			int trainCounter = 0;
-			@Override
-			public synchronized void run(){
-				int trainId = 0;
-				int numSeats = 0;
-				int freePosition = 0;
-				
-				int idCounter = 0;
-				int randStart = 0;
-				int randDestination = 0;
-				int min = 0;
-				int max = 7;
-				while(true){
-						//Passenger p = new Passenger(idCounter, randStart, randDestination);
-						//stations.get(randStart).addWaitingPassenger(p);
-						for(Train train : trains) {			
-							for(Station station : stations) {
-								//System.out.println(station.getPosition() + " " + train.getPosition());
-								if (train.getPosition() == station.getPosition())
-								{
-									station.addTrainIntoStation(train);
-									train.unloadTrain(station);
-									if (station.getPassengers().size() != 0)
-										train.loadTrain(station);				
-								}
-							}
-						}
-						//notify();
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					//}
-				}
-			}
-		};
-		
-		Thread runnable2 = new Thread(){
-			@Override
-			public synchronized void run(){
-				int idCounter = 0;
-				int randStart = 0;
-				int randDestination = 0;
-				int min = 0;
-				int max = 7;			
-				
-				while(true){
-					idCounter++;
-					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
-					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
-					while(randStart == randDestination) {
-						randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
-						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
-					}
-					
-					Passenger p = new Passenger(idCounter, randStart, randDestination);
-					stations.get(randStart).addWaitingPassenger(p);
-					
-					for(Train train : trains) {
-						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
-							railroad[train.getPrevPosition()] = null;
-						railroad[train.getPosition()] =  train;
-					}
-					System.out.println(represent(railroad));
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					notify();
-				}
-			}
-		};
-		
+//		Thread runnable = new Thread(){
+//			@Override
+//			public synchronized void run(){
+//				while(true){
+//						//Passenger p = new Passenger(idCounter, randStart, randDestination);
+//						//stations.get(randStart).addWaitingPassenger(p);
+//						for(Train train : trains) {			
+//							for(Station station : stations) {
+//								//System.out.println(station.getPosition() + " " + train.getPosition());
+//								if (train.getPosition() == station.getPosition())
+//								{
+//									station.addTrainIntoStation(train);
+//									train.unloadTrain(station);
+//									if (station.getPassengers().size() != 0)
+//										train.loadTrain(station);				
+//								}
+//							}
+//						}
+//						//notify();
+//						try {
+//							Thread.sleep(1000);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					//}
+//				}
+//			}
+//		};
+//		
+//		Thread runnable2 = new Thread(){
+//			@Override
+//			public synchronized void run(){
+//				int idCounter = 0;
+//				int randStart = 0;
+//				int randDestination = 0;
+//				int min = 0;
+//				int max = 7;			
+//				
+//				while(true){
+//					idCounter++;
+//					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+//					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+//					
+//					while(randStart == randDestination) {
+//						randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
+//						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
+//						System.out.println(randStart);
+//					}
+//					
+//					Passenger p = new Passenger(idCounter, randStart, randDestination);
+//					stations.get(randStart).addWaitingPassenger(p);
+//					
+//					for(Train train : trains) {
+//						if (railroad[train.getPrevPosition()] != null && railroad[train.getPrevPosition()].getId() == train.getId())
+//							railroad[train.getPrevPosition()] = null;
+//						railroad[train.getPosition()] =  train;
+//					}
+//					System.out.println(represent(railroad));
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					notify();
+//				}
+//			}
+//		};
+//		
 //		Thread runnable2 = new Thread(){
 //			@Override
 //			public synchronized void run(){
@@ -202,9 +233,9 @@ public class threadTest extends JFrame {
 //		for(Train t : trains) {
 //			t.start();
 //		}
-		new threadTest();
-		runnable.start();
-		runnable2.start();
+		
+//		runnable.start();
+//		runnable2.start();
 		//train2.start();
 	}
 }
