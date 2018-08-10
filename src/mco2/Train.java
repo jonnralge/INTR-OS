@@ -45,12 +45,13 @@ public class Train extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-		    	System.out.println("Train at: "+ position + " " + passengers.size() + "/" +passengerCapacity);
-				if (position == 15)
+				if (position == 16)
 		    		position = 0;
-		    	if (previousPos == 15)
+		    	if (previousPos == 16)
 		    		previousPos = 0;
+		    	
+		    	System.out.println("Train at: "+ position + " " + passengers.size() + "/" +passengerCapacity);
+				
 		    	
 				if (position % 2 == 0) {
 					while (stations.get(position/2).isOccupied()) {
@@ -72,15 +73,11 @@ public class Train extends Thread {
 						synchronized(stations.get(position/2).boardingLock) {
 							stations.get(position/2).boardingLock.notifyAll();
 						}
-					} else {
-						synchronized(stations.get(position/2).boardingLock) {
-							stations.get(position/2).boardingLock.notifyAll();
-						} //release lock on passengers still waiting if train is already full
-					}
+					} 
 					stations.get(position/2).removeTrain();
 				}
 				
-				previousPos = position;
+				
 		    	position++;
 		    	
 		    	
@@ -143,5 +140,9 @@ public class Train extends Thread {
 			
 		public int getPassengerCount(){
 			return this.passengers.size();
+		}
+		
+		public boolean isFull(){
+			return passengers.size() == passengerCapacity;
 		}
 }

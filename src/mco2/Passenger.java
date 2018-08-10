@@ -12,7 +12,8 @@ public class Passenger extends Thread{
 	}
 	
 	public void run(){
-		waitForTrain(startStation);
+		Train t = waitForTrain(startStation);
+		waitForDestination(t);
 	}
 	
 	public synchronized void waitForDestination(Train train) {
@@ -31,13 +32,12 @@ public class Passenger extends Thread{
 		System.out.println("Passenger " + id + " has arrived at destination");
 		train.unloadTrain(this);
 	}
-	public synchronized void waitForTrain(Station station) {
+	public synchronized Train waitForTrain(Station station) {
 		//while there is no train, wait
 		synchronized(station.boardingLock) {
 			while(!onTrain) {
 				if (!station.isOccupied()) {
 					onTrain = false;
-					System.out.println("Waiting");
 						while(!station.isOccupied())
 							try {
 								station.boardingLock.wait();
@@ -46,13 +46,22 @@ public class Passenger extends Thread{
 								e.printStackTrace();
 							}
 				}
-					if(station.currentTrain.loadTrain(this) && 
-						station.currentTrain != null) {
+				try{
+					if(station.currentTrain != null) {
+						if (station.currentTrain.loadTrain(this)) {
 						onTrain = true;
+						station.removePassenger(this);
+						}
 					}
+				}catch(Exception e){
+					onTrain = false;
+					e.printStackTrace();
+				}
 			}
 			if (station.currentTrain != null)
-				waitForDestination(station.currentTrain);
+				return station.currentTrain;
+			else
+				return null;
 		}
 	}
 	

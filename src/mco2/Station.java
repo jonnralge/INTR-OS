@@ -51,9 +51,10 @@ public class Station {
 		return passengers;
 	}
 
-	public synchronized Passenger removeAndGetPassenger() {
+	public synchronized void removePassenger(Passenger p) {
 		// TODO Auto-generated method stub
-		return passengers.remove(0);
+		int indexOfPassenger = passengers.indexOf(p);
+		passengers.remove(indexOfPassenger);
 	}
 
 	public int getId() {
