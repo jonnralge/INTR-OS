@@ -39,13 +39,19 @@ public class Train extends Thread {
 	  		setName("Train. " + id);  // i.e. Train.0
 			while(true)
 			{
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if (position == 16)
 		    		position = 0;
 		    	if (previousPos == 16)
 		    		previousPos = 0;
 		    	
-		    	System.out.println("Train at: "+ position + " " + passengers + "/" +passengerCapacity);
+		    	System.out.println("Train " + id + " at: "+ position + " " + passengers + "/" +passengerCapacity);
 				
 		    	
 				if (position % 2 == 0) {
@@ -69,12 +75,8 @@ public class Train extends Thread {
 							stations.get(position/2).boardingLock.notifyAll();
 						}
 					}
-					int waitTime = stations.get(position/2).getPassengers().size() * 500;
 					try {
-						if (waitTime == 0)
-							Thread.sleep(500);
-						else
-							Thread.sleep(waitTime);
+						Thread.sleep(500);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

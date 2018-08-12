@@ -18,10 +18,8 @@ public class Passenger extends Thread{
 	}
 	
 	public void waitForDestination(Train train) {
-		System.out.println("Passenger " + id + " on train " + train.getId());
 		synchronized(train.doorLock) {
 				while(train.getPosition() != destinationStation.getPosition()) {
-					System.out.println("Waiting for destination");	
 					try {
 							train.doorLock.wait();
 						} catch (InterruptedException e) {

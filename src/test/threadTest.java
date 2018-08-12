@@ -4,6 +4,8 @@ import mco2.Train;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -25,7 +27,7 @@ public class threadTest extends JFrame {
 	static ArrayList<Train> trains = new ArrayList<Train>();
 	static ArrayList<Station> stations = new ArrayList<Station>();
 	static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
-	
+
 	public threadTest() {
 		GridLayout test = new GridLayout(0,2);
 		this.setSize(500,500);
@@ -78,12 +80,13 @@ public class threadTest extends JFrame {
 						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
 					}
 					System.out.println(randStart + " " + randDestination);
-					Passenger p = new Passenger(idCounter, Train.stations.get(3), Train.stations.get(5));
+					Passenger p = new Passenger(idCounter, Train.stations.get(randStart - 1), Train.stations.get(randDestination - 1));
 //					Passenger p = new Passenger(idCounter, Train.stations.get(2), Train.stations.get(4));
 	
-					p.run();
+					p.start();
 			}
 		});
+		
 		addATrain.setEnabled(true);
 		addATrain.setVisible(true);
 		addAPassenger.setEnabled(true);
