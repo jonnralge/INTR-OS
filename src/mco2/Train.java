@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Train extends Thread {
 	private int position; //Where train currently is
-	ArrayList<Passenger> passengers;
+	private int passengers;
     private final long id;
     private final int passengerCapacity;
     private int previousPos;
@@ -14,7 +14,7 @@ public class Train extends Thread {
 	  public Train(int id, int position, int passengerCapacity) {
 		  	this.id 			   = id;
 	        this.position     	   = position;
-	        this.passengers        = new ArrayList<Passenger>();
+	        this.passengers        = 0;
 	        this.passengerCapacity = passengerCapacity;
 	        this.previousPos = position;
 	    }
@@ -39,18 +39,13 @@ public class Train extends Thread {
 	  		setName("Train. " + id);  // i.e. Train.0
 			while(true)
 			{
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 				if (position == 16)
 		    		position = 0;
 		    	if (previousPos == 16)
 		    		previousPos = 0;
 		    	
-		    	System.out.println("Train at: "+ position + " " + passengers.size() + "/" +passengerCapacity);
+		    	System.out.println("Train at: "+ position + " " + passengers + "/" +passengerCapacity);
 				
 		    	
 				if (position % 2 == 0) {
@@ -73,18 +68,22 @@ public class Train extends Thread {
 						synchronized(stations.get(position/2).boardingLock) {
 							stations.get(position/2).boardingLock.notifyAll();
 						}
-					} 
+					}
+					int waitTime = stations.get(position/2).getPassengers().size() * 500;
+					try {
+						if (waitTime == 0)
+							Thread.sleep(500);
+						else
+							Thread.sleep(waitTime);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					stations.get(position/2).removeTrain();
 				}
-				
-				
 		    	position++;
-		    	
-		    	
 		    	//System.out.println(position);
 			}
-	    	// here we simulate the train status
-			// a Train always starts in a station
 	    }
 		
 	  	public synchronized boolean loadTrain(Passenger p) {
@@ -108,8 +107,8 @@ public class Train extends Thread {
 //	    			e.printStackTrace();
 //	    		}
 //	    		notifyAll();
-				if (passengers.size() != passengerCapacity) {
-					passengers.add(p);
+				if (passengers != passengerCapacity) {
+					passengers++;
 					System.out.println("Passenger " + p.getId() + " has boarded train " + this.id);
 					return true;
 				}
@@ -118,9 +117,8 @@ public class Train extends Thread {
 		}
 	  	
 	  	public synchronized void unloadTrain(Passenger p) {
-	  		if(passengers.size() != 0)
-	  			System.out.println("Unloading train " + this.id);
-	  		passengers.remove(p);
+	  		passengers--;
+	  		System.out.println("Passenger " + p.getId() + " has arrived at destination");
 	  	}
 	  	
 		public long getId() {
@@ -139,10 +137,10 @@ public class Train extends Thread {
 		}
 			
 		public int getPassengerCount(){
-			return this.passengers.size();
+			return passengers;
 		}
 		
 		public boolean isFull(){
-			return passengers.size() == passengerCapacity;
+			return passengers == passengerCapacity;
 		}
 }

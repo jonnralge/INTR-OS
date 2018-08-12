@@ -9,14 +9,15 @@ public class Passenger extends Thread{
 		this.id 				= id;
 		this.startStation 		= startStation;
 		this.destinationStation = destinationStation;
+		startStation.addWaitingPassenger(this);
 	}
 	
-	public void run(){
+	public synchronized void run(){
 		Train t = waitForTrain(startStation);
 		waitForDestination(t);
 	}
 	
-	public synchronized void waitForDestination(Train train) {
+	public void waitForDestination(Train train) {
 		System.out.println("Passenger " + id + " on train " + train.getId());
 		synchronized(train.doorLock) {
 				while(train.getPosition() != destinationStation.getPosition()) {
@@ -32,10 +33,12 @@ public class Passenger extends Thread{
 		System.out.println("Passenger " + id + " has arrived at destination");
 		train.unloadTrain(this);
 	}
-	public synchronized Train waitForTrain(Station station) {
+	public Train waitForTrain(Station station) {
+		Train train = null;
 		//while there is no train, wait
 		synchronized(station.boardingLock) {
 			while(!onTrain) {
+				train = station.currentTrain;
 				if (!station.isOccupied()) {
 					onTrain = false;
 						while(!station.isOccupied())
@@ -47,21 +50,16 @@ public class Passenger extends Thread{
 							}
 				}
 				try{
-					if(station.currentTrain != null) {
-						if (station.currentTrain.loadTrain(this)) {
+					if(train.loadTrain(this)) {
 						onTrain = true;
 						station.removePassenger(this);
-						}
+						return train;
 					}
 				}catch(Exception e){
 					onTrain = false;
-					e.printStackTrace();
 				}
 			}
-			if (station.currentTrain != null)
-				return station.currentTrain;
-			else
-				return null;
+			return train;
 		}
 	}
 	

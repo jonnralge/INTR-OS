@@ -69,7 +69,6 @@ public class threadTest extends JFrame {
 			int max = 8;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(int i = 0; i < 15; i++){
 					idCounter++;
 					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
 					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -79,16 +78,16 @@ public class threadTest extends JFrame {
 						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
 					}
 					System.out.println(randStart + " " + randDestination);
-					Passenger p = new Passenger(idCounter, Train.stations.get(randStart - 1), Train.stations.get(randDestination - 1));
+					Passenger p = new Passenger(idCounter, Train.stations.get(3), Train.stations.get(5));
 //					Passenger p = new Passenger(idCounter, Train.stations.get(2), Train.stations.get(4));
 	
-					Train.stations.get(randStart - 1).addWaitingPassenger(p);
 					p.run();
-				}
 			}
 		});
 		addATrain.setEnabled(true);
 		addATrain.setVisible(true);
+		addAPassenger.setEnabled(true);
+		addAPassenger.setVisible(true);
 		this.add(addATrain);
 		this.add(totalSeats);
 		this.add(seats);

@@ -22,7 +22,7 @@ public class Station {
 	}
 	public void addTrainIntoStation(Train train) {
 		synchronized(boardingLock) {
-			currentTrain = train;
+			this.currentTrain = train;
 			System.out.println("Train " + train.getName() + " loaded in station " + this.id);
 			boardingLock.notifyAll();
 		}
@@ -31,7 +31,7 @@ public class Station {
 	public void removeTrain() {
 		synchronized(trainLock) {
 			System.out.println("Train " + currentTrain.getName() + " left the station " + this.id);
-			currentTrain = null;
+			this.currentTrain = null;
 			trainLock.notifyAll();
 		}
 	}
