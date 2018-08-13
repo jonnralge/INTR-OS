@@ -178,13 +178,12 @@ public class threadTest extends JFrame {
 //		runnable2.start();
 		//train2.start();
 	}
-	public static void dispatchTrain(int id, int position, int seats){
+	public static void dispatchTrain(Train newTrain){
 
 		//Create The Train
-        Train newTrain = new Train(id, position, seats);
         availableSeats = newTrain.getCapacity() - newTrain.getPassengerCount();
         //Paint Train List
-        TrainVisualPanel.trainName.get(numTrains).setText("Train#"+Long.toString(id+1));
+        TrainVisualPanel.trainName.get(numTrains).setText("Train#"+Long.toString(newTrain.getId()));
         TrainVisualPanel.trainSeats.get(numTrains).setText(newTrain.getPassengerCount() + "/" + newTrain.getCapacity());
         TrainVisualPanel.trainStatusHead.get(numTrains).setText("<html><u>Status:</u></html>");
         TrainVisualPanel.trainStatus.get(numTrains).setText("");

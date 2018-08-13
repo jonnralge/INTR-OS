@@ -184,8 +184,6 @@ public class TrainControlPanel extends JPanel implements ActionListener {
 					int numSeats = Integer.parseInt(textfield_train_seats.getText());
 					int freePosition = 0;
 					
-					//Caltrain.dispatchTrain(Caltrain.numTrains, freePosition, numSeats);
-					
 					for(int i = 0; i < threadTest.railroad.length; i++) {
 						if(threadTest.railroad[i] == null) {
 							freePosition = i;
@@ -193,6 +191,7 @@ public class TrainControlPanel extends JPanel implements ActionListener {
 						}
 					}
 					Train t = new Train(Caltrain.numTrains+1, freePosition, numSeats);
+					Caltrain.dispatchTrain(t);
 					Caltrain.numTrains++;
 					t.start();
 					Caltrain.trains.add(t);
