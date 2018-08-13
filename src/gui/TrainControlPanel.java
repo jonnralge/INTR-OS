@@ -184,7 +184,7 @@ public class TrainControlPanel extends JPanel implements ActionListener {
 					int numSeats = Integer.parseInt(textfield_train_seats.getText());
 					int freePosition = 0;
 					
-					Caltrain.dispatchTrain(Caltrain.numTrains, freePosition, numSeats);
+					//Caltrain.dispatchTrain(Caltrain.numTrains, freePosition, numSeats);
 					
 					for(int i = 0; i < threadTest.railroad.length; i++) {
 						if(threadTest.railroad[i] == null) {

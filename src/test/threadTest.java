@@ -32,73 +32,6 @@ public class threadTest extends JFrame {
 	public static int numTrains = 0;
 
 	public threadTest() {
-		GridLayout test = new GridLayout(0,2);
-		this.setSize(500,500);
-		this.setLayout(test);
-		JButton addATrain = new JButton("Add a train");
-		JLabel totalSeats = new JLabel("How many seats? ");
-		JTextField seats = new JTextField();
-		seats.setSize(100, 200);
-		JButton addAPassenger = new JButton("Add a passenger");
-		addATrain.addActionListener(new ActionListener() {
-			int trainCounter = 0;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (trains.size() == 16)
-					System.out.println("Max trains deployed");
-				else {
-					System.out.println("Pressed");
-					int numSeats = Integer.parseInt(seats.getText());
-					int freePosition = 0;
-					
-					for(int i = 0; i < railroad.length; i++) {
-						if(railroad[i] == null) {
-							freePosition = i;
-							break;
-						}
-					}
-					Train t = new Train(trainCounter + 1, freePosition, numSeats);
-					trainCounter++;
-					trains.add(t);
-					t.start();
-				}
-			}
-			
-		});
-		addAPassenger.addActionListener(new ActionListener() {
-			int idCounter = 0;
-			int randStart = 0;
-			int randDestination = 0;
-			int min = 1;
-			int max = 8;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-					idCounter++;
-					randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
-					randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
-					
-					while(randStart == randDestination) {
-						randStart = ThreadLocalRandom.current().nextInt(min, max + 1);
-						randDestination = ThreadLocalRandom.current().nextInt(min, max + 1);
-					}
-					System.out.println(randStart + " " + randDestination);
-					Passenger p = new Passenger(idCounter, Train.stations.get(randStart - 1), Train.stations.get(randDestination - 1));
-//					Passenger p = new Passenger(idCounter, Train.stations.get(2), Train.stations.get(4));
-	
-					p.start();
-			}
-		});
-		
-		addATrain.setEnabled(true);
-		addATrain.setVisible(true);
-		addAPassenger.setEnabled(true);
-		addAPassenger.setVisible(true);
-		this.add(addATrain);
-		this.add(totalSeats);
-		this.add(seats);
-		this.add(addAPassenger);
-		this.setVisible(true);
 	}
 	
 	public static String represent() {
@@ -256,7 +189,7 @@ public class threadTest extends JFrame {
         TrainVisualPanel.trainStatusHead.get(numTrains).setText("<html><u>Status:</u></html>");
         TrainVisualPanel.trainStatus.get(numTrains).setText("");
         
-        newTrain.start();
-        trains.add(newTrain);
+       // newTrain.start();
+        //trains.add(newTrain);
     }
 }
