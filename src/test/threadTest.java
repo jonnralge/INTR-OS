@@ -22,14 +22,19 @@ import mco2.Station;
 
 public class threadTest extends JFrame {
 	
-	
 	static Scanner sc = new Scanner(System.in);
 	public static Train[] railroad = new Train[16];
 	public static ArrayList<Train> trains = new ArrayList<Train>();
 	public static ArrayList<Station> stations = new ArrayList<Station>();
 	public static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
+	public static int location = 0;
 	public static int availableSeats;
 	public static int numTrains = 0;
+	public static int idCounter = 0;
+	public static int randStart = 0;
+	public static int randDestination = 0;
+	public static int min = 1;
+	public static int max = 8;
 
 	public threadTest() {
 	}
@@ -179,16 +184,11 @@ public class threadTest extends JFrame {
 		//train2.start();
 	}
 	public static void dispatchTrain(Train newTrain){
-
-		//Create The Train
         availableSeats = newTrain.getCapacity() - newTrain.getPassengerCount();
-        //Paint Train List
+        
         TrainVisualPanel.trainName.get(numTrains).setText("Train#"+Long.toString(newTrain.getId()));
         TrainVisualPanel.trainSeats.get(numTrains).setText(newTrain.getPassengerCount() + "/" + newTrain.getCapacity());
         TrainVisualPanel.trainStatusHead.get(numTrains).setText("<html><u>Status:</u></html>");
         TrainVisualPanel.trainStatus.get(numTrains).setText("");
-        
-       // newTrain.start();
-        //trains.add(newTrain);
     }
 }

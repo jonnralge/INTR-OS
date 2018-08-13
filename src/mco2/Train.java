@@ -1,6 +1,7 @@
 package mco2;
 
 import java.util.ArrayList;
+import gui.TrainVisualPanel;
 
 public class Train extends Thread {
 	private int position; //Where train currently is
@@ -66,6 +67,7 @@ public class Train extends Thread {
 						}
 					}
 					stations.get(position/2).addTrainIntoStation(this);
+					stations.get(position/2).trainArrived();
 					synchronized(doorLock) {
 						doorLock.notifyAll(); //inform passengers the doors are open, and can depart
 					}
@@ -82,6 +84,7 @@ public class Train extends Thread {
 						e.printStackTrace();
 					}
 					stations.get(position/2).removeTrain();
+					stations.get(position/2).trainLeft();
 				}
 		    	position++;
 		    	//System.out.println(position);
@@ -112,6 +115,7 @@ public class Train extends Thread {
 				if (passengers != passengerCapacity) {
 					passengers++;
 					System.out.println("Passenger " + p.getId() + " has boarded train " + this.id);
+					update();
 					return true;
 				}
 				return false;
@@ -121,6 +125,7 @@ public class Train extends Thread {
 	  	public synchronized void unloadTrain(Passenger p) {
 	  		passengers--;
 	  		System.out.println("Passenger " + p.getId() + " has arrived at destination");
+	  		update();
 	  	}
 	  	
 		public long getId() {
@@ -148,5 +153,9 @@ public class Train extends Thread {
 		
 		public int getCapacity() {
 			return this.passengerCapacity;
+		}
+		
+		public void update() {
+	        TrainVisualPanel.trainSeats.get((int)id-1).setText(passengers + "/" + passengerCapacity);
 		}
 }
