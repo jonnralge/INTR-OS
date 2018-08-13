@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import gui.TrainVisualPanel;
 import mco2.Passenger;
 import mco2.Station;
 
@@ -23,10 +24,12 @@ public class threadTest extends JFrame {
 	
 	
 	static Scanner sc = new Scanner(System.in);
-	static Train[] railroad = new Train[16];
-	static ArrayList<Train> trains = new ArrayList<Train>();
-	static ArrayList<Station> stations = new ArrayList<Station>();
-	static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
+	public static Train[] railroad = new Train[16];
+	public static ArrayList<Train> trains = new ArrayList<Train>();
+	public static ArrayList<Station> stations = new ArrayList<Station>();
+	public static ArrayList<Integer> trainCapacities = new ArrayList<Integer>();
+	public static int availableSeats;
+	public static int numTrains = 0;
 
 	public threadTest() {
 		GridLayout test = new GridLayout(0,2);
@@ -242,4 +245,18 @@ public class threadTest extends JFrame {
 //		runnable2.start();
 		//train2.start();
 	}
+	public static void dispatchTrain(int id, int position, int seats){
+
+		//Create The Train
+        Train newTrain = new Train(id, position, seats);
+        availableSeats = newTrain.getCapacity() - newTrain.getPassengerCount();
+        //Paint Train List
+        TrainVisualPanel.trainName.get(numTrains).setText("Train#"+Long.toString(id+1));
+        TrainVisualPanel.trainSeats.get(numTrains).setText(newTrain.getPassengerCount() + "/" + newTrain.getCapacity());
+        TrainVisualPanel.trainStatusHead.get(numTrains).setText("<html><u>Status:</u></html>");
+        TrainVisualPanel.trainStatus.get(numTrains).setText("");
+        
+        newTrain.start();
+        trains.add(newTrain);
+    }
 }

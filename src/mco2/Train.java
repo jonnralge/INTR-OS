@@ -145,4 +145,8 @@ public class Train extends Thread {
 		public boolean isFull(){
 			return passengers == passengerCapacity;
 		}
+		
+		public int getCapacity() {
+			return this.passengerCapacity;
+		}
 }
