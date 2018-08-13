@@ -28,7 +28,6 @@ public class Passenger extends Thread{
 						}
 				}
 		}
-		System.out.println("Passenger " + id + " has arrived at destination");
 		train.unloadTrain(this);
 	}
 	public Train waitForTrain(Station station) {
@@ -71,6 +70,5 @@ public class Passenger extends Thread{
 	
 	public long getId() {
 		return id;
-	}
-	
+	}	
 }
