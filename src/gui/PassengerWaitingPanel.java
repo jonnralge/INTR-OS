@@ -10,9 +10,29 @@ import javax.swing.border.TitledBorder;
 import net.miginfocom.swing.MigLayout;
 
 public class PassengerWaitingPanel extends JPanel{
+<<<<<<< HEAD
     public static JPanel Station1, Station2, Station3, Station4, Station5, Station6, Station7, Station8;
     
     public static JLabel label_1_waiting, label_2_waiting, label_3_waiting, label_4_waiting, label_5_waiting, label_6_waiting, label_7_waiting, label_8_waiting;
+=======
+    public static JPanel Station1,
+			             Station2,
+			             Station3,
+			             Station4,
+			             Station5,
+			             Station6,
+			             Station7,
+			             Station8;
+    
+    public static JLabel label_1_waiting,
+				         label_2_waiting,
+				         label_3_waiting,
+				         label_4_waiting,
+				         label_5_waiting,
+				         label_6_waiting,
+				         label_7_waiting,
+				         label_8_waiting;
+>>>>>>> branch 'Gui' of https://github.com/jonnralge/INTR-OS.git
     
     Font stationFont = new Font("Georgia", Font.PLAIN, 20);
     

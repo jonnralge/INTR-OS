@@ -12,7 +12,6 @@ import Sgui.STrainFrame;
 import mco2.Train;
 import net.miginfocom.swing.MigLayout;
 import test.TrainSystem;
-import test.threadTest;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
@@ -52,6 +51,7 @@ public class StartFrame extends JFrame implements ActionListener{
             GUI.startFrame = new SStationFrame();
 
     		TrainSystem t = new TrainSystem();
+            System.out.print("Semaphore Not Available");
         }
         else if(monitor.isSelected()){
         	this.setVisible(false);

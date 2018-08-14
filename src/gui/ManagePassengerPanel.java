@@ -22,7 +22,12 @@ public class ManagePassengerPanel extends JPanel implements ActionListener {
         
     public ManagePassengerPanel(){
         this.setLayout(new MigLayout("", "[]20[]", ""));
+<<<<<<< HEAD
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
+=======
+        this.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
+>>>>>>> branch 'Gui' of https://github.com/jonnralge/INTR-OS.git
         
         buildComponents();
         assembleComponents();
