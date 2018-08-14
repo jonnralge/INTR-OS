@@ -1,4 +1,4 @@
-package gui;
+package Sgui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,15 +9,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import net.miginfocom.swing.MigLayout;
 
-public class PassengerWaitingPanel extends JPanel{
-
+public class SPassengerWaitingPanel extends JPanel{
     public static JPanel Station1, Station2, Station3, Station4, Station5, Station6, Station7, Station8;
     
     public static JLabel label_1_waiting, label_2_waiting, label_3_waiting, label_4_waiting, label_5_waiting, label_6_waiting, label_7_waiting, label_8_waiting;
-
+    
     Font stationFont = new Font("Georgia", Font.PLAIN, 20);
     
-    public PassengerWaitingPanel(){
+    public SPassengerWaitingPanel(){
         this.setLayout(new MigLayout("", "[150,fill, grow]", "[150,fill]"));
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Waiting", TitledBorder.CENTER, TitledBorder.TOP));
         

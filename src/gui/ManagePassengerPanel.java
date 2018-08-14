@@ -22,8 +22,10 @@ public class ManagePassengerPanel extends JPanel implements ActionListener {
         
     public ManagePassengerPanel(){
         this.setLayout(new MigLayout("", "[]20[]", ""));
+        this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
         this.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
+
         
         buildComponents();
         assembleComponents();

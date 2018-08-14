@@ -7,9 +7,11 @@ import java.awt.Dimension;
 import javax.swing.JRadioButton;
 import gui.GUI;
 import gui.TrainFrame;
+import Sgui.SStationFrame;
+import Sgui.STrainFrame;
 import mco2.Train;
 import net.miginfocom.swing.MigLayout;
-import test.threadTest;
+import test.TrainSystem;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 
@@ -43,6 +45,12 @@ public class StartFrame extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
     	if(semaphore.isSelected()){
+    		this.setVisible(false);
+        	
+            GUI.StrainFrame = new STrainFrame();
+            GUI.startFrame = new SStationFrame();
+
+    		TrainSystem t = new TrainSystem();
             System.out.print("Semaphore Not Available");
         }
         else if(monitor.isSelected()){
@@ -51,7 +59,6 @@ public class StartFrame extends JFrame implements ActionListener{
             GUI.trainFrame = new TrainFrame();
             GUI.startFrame = new StationFrame();
 
-            new threadTest();
     		Train.initializeStations();
         }  
     }
