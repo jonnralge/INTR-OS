@@ -12,7 +12,7 @@ public class Passenger extends Thread{
 		startStation.addWaitingPassenger(this);
 	}
 	
-	public synchronized void run(){
+	public void run(){
 		Train t = waitForTrain(startStation);
 		waitForDestination(t);
 	}
