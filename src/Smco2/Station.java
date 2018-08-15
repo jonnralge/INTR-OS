@@ -3,6 +3,7 @@ package Smco2;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.Random;
 
 import Sgui.SPassengerWaitingPanel;
 import Sgui.SStationVisualPanel;
@@ -92,6 +93,20 @@ public class Station {
     public void setCurPassengers(int curPassengers) {
         this.curPassengers = curPassengers;
     }
+	
+    public static int uniqueDest(int given){
+        int n;
+        do{
+            n = randNum(8-1,0);
+        }while(given == n);
+        return n;
+    }
+    
+    public static int randNum(int max, int min){
+        Random rand = new Random();
+        int  n = rand.nextInt(max) + min;
+        return n;
+    }   
     
     /**
      * load train into station
@@ -144,14 +159,15 @@ public class Station {
         this.curPassengers += numPassengers;
         
         for(int i=0;i<numPassengers;i++){
-            Passenger p = new Passenger(destStation,this);
+            int dropoffStation = uniqueDest(destStation);
+            Passenger p = new Passenger(destStation,dropoffStation,this);
             passengers.add(p);
             station_robots.add(new Thread(p));
             station_robots.get(station_robots.size()-1).start();
         }
         System.out.println("Station [" + this.id + "] now has " 
                 + this.curPassengers+ " waiting");
-    }
+    }  
     
     /**
      * checks if all passengers are on board
