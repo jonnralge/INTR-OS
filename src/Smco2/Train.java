@@ -199,11 +199,12 @@ public class Train implements Runnable{
         //System.out.println("Unloading Passengers");
         passenger_dropoffs.clear();
         for(Passenger p : passengers){
-            if(true)
+            if(p.getDestStation()==this.getCurPos())
             {
                 this.occupied_seats--;
                 passenger_dropoffs.add(p);
-                update();
+		System.out.println("Passenger " + p.getId() + " has unboarded train");
+                //update();
             }else{
             }                    
         }
