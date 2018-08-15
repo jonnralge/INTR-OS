@@ -26,7 +26,7 @@ public class Train extends Thread {
 				Station s = new Station(i, position);
 				position += 2;
 				stations.add(s);
-				System.out.println(i + " " + s.getPosition());
+				//System.out.println(i + " " + s.getPosition());
 			}
 	  }
 	  
@@ -52,7 +52,7 @@ public class Train extends Thread {
 		    	if (previousPos == 16)
 		    		previousPos = 0;
 		    	
-		    	System.out.println("Train " + id + " at: "+ position + " " + passengers + "/" +passengerCapacity);
+		    	//System.out.println("Train " + id + " at: "+ position + " " + passengers + "/" +passengerCapacity);
 				
 		    	
 				if (position % 2 == 0) {

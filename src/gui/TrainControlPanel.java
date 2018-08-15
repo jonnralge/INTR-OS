@@ -33,14 +33,14 @@ public class TrainControlPanel extends JPanel implements ActionListener {
     JTextField textfield_train_seats;
     
     JSeparator separator = new JSeparator();
-    JButton button_add_train, button_exit_simulation;
+    JButton button_add_train;
 
-    Font headerFont = new Font("Georgia", Font.PLAIN, 20);
-    Font trainNumFont = new Font("Georgia", Font.PLAIN, 18);
-    Font labelFont = new Font("Tahoma", Font.PLAIN, 14);
-    Font fieldFont = new Font("Segoe UI", Font.PLAIN, 16);
-    Font buttonFont = new Font("Segoe UI", Font.BOLD, 16);
-    Font borderTitleFont = new Font("Segoe UI", Font.ITALIC + Font.BOLD, 16);
+    Font headerFont = new Font("Dialog", Font.PLAIN, 20);
+    Font trainNumFont = new Font("Dialog", Font.PLAIN, 18);
+    Font labelFont = new Font("Dialog", Font.PLAIN, 14);
+    Font fieldFont = new Font("Dialog", Font.PLAIN, 16);
+    Font buttonFont = new Font("Dialog", Font.BOLD, 16);
+    Font borderTitleFont = new Font("Dialog", Font.PLAIN + Font.BOLD, 16);
     
     public TrainControlPanel(){
         threadTest = new threadTest();
@@ -57,7 +57,7 @@ public class TrainControlPanel extends JPanel implements ActionListener {
         
         addTrainPanel = new JPanel();
         addTrainPanel.setLayout(new MigLayout(""));
-        addTrainPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Add a Train", TitledBorder.LEFT, TitledBorder.TOP, borderTitleFont, Color.decode("#006158")));
+        addTrainPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "Add a Train", TitledBorder.LEFT, TitledBorder.TOP, borderTitleFont));
         
         sidePanel = new JPanel(new MigLayout());
         
@@ -69,7 +69,7 @@ public class TrainControlPanel extends JPanel implements ActionListener {
         
         label_train_count = new JLabel("0 out of 16");
         label_train_count.setFont(trainNumFont);
-        label_train_count.setForeground(Color.decode("#e91e63"));
+        label_train_count.setForeground(Color.red);
         
         label_train_seats = new JLabel("Num of Seats");
         label_train_seats.setFont(fieldFont);
@@ -77,18 +77,11 @@ public class TrainControlPanel extends JPanel implements ActionListener {
         textfield_train_seats = new JTextField(10);
         textfield_train_seats.setFont(fieldFont);
         
-        button_add_train = new JButton("Add Train!");
+        button_add_train = new JButton("Add Train");
         button_add_train.setFocusPainted(false);
         button_add_train.setFont(buttonFont);
-        button_add_train.setForeground(Color.white);
-        button_add_train.setBackground(Color.decode("#04bbaa"));
-        button_add_train.addActionListener(this);
-        
-        button_exit_simulation = new JButton("Exit Simulation");
-        button_exit_simulation.setFocusPainted(false);
-        button_exit_simulation.setFont(buttonFont);
-        button_exit_simulation.addActionListener(this);
-        
+        button_add_train.setForeground(Color.BLACK);
+        button_add_train.addActionListener(this);     
     }
     
     public void assembleComponents(){
@@ -160,10 +153,6 @@ public class TrainControlPanel extends JPanel implements ActionListener {
 					
 				}
             }
-        }
-        
-        if(e.getSource() == button_exit_simulation){
-            System.exit(0);
         }
     }
 }

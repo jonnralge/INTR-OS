@@ -188,7 +188,5 @@ public class threadTest extends JFrame {
         
         TrainVisualPanel.trainName.get(numTrains).setText("Train#"+Long.toString(newTrain.getId()));
         TrainVisualPanel.trainSeats.get(numTrains).setText(newTrain.getPassengerCount() + "/" + newTrain.getCapacity());
-        TrainVisualPanel.trainStatusHead.get(numTrains).setText("<html><u>Status:</u></html>");
-        TrainVisualPanel.trainStatus.get(numTrains).setText("");
     }
 }

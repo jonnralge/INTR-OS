@@ -197,7 +197,7 @@ public class Train implements Runnable{
      * passenger_dropoffs from array list passengers
      */
     public void unloadPassengers(){       
-        System.out.println("Unloading Passengers");
+        //System.out.println("Unloading Passengers");
         passenger_dropoffs.clear();
         try{
             Iterator<Passenger> i = passengers.iterator();
@@ -232,14 +232,14 @@ public class Train implements Runnable{
     
     @Override
     public void run(){
-        System.out.println("Train [" + this.id + "] is created and running");
+        System.out.println("Train [" + this.id + "] generated");
         
         while (train_isRunning) {
            train_stations[curPos].setCurrentTrain(this);
            this.unloadPassengers();
            train_stations[curPos].load_train(this.getAvailableSeats());
            try{
-               Thread.sleep(3000);
+               Thread.sleep(500);
                curPos = (getCurPos() + 1)%8;
            }catch(Exception e){
                System.out.println(e);

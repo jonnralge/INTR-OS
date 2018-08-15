@@ -15,7 +15,7 @@ public class PassengerWaitingPanel extends JPanel{
     
     public static JLabel label_1_waiting, label_2_waiting, label_3_waiting, label_4_waiting, label_5_waiting, label_6_waiting, label_7_waiting, label_8_waiting;
 
-    Font stationFont = new Font("Georgia", Font.PLAIN, 20);
+    Font stationFont = new Font("Dialog", Font.PLAIN, 20);
     
     public PassengerWaitingPanel(){
         this.setLayout(new MigLayout("", "[150,fill, grow]", "[150,fill]"));

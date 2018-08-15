@@ -19,8 +19,8 @@ public class StationFrame extends JFrame{
         
         this.setLayout(new MigLayout());
         
-        this.add(passengerPanel, "pushx, growx, wrap");
         this.add(stationPanel, "pushx, growx, wrap");
+        this.add(passengerPanel, "pushx, growx, wrap");
 
         this.add(new ManagePassengerPanel(), "pushx, center");
     }

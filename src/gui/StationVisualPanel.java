@@ -14,7 +14,7 @@ public class StationVisualPanel extends JPanel{
     
     public static JLabel label_1_train, label_2_train, label_3_train, label_4_train, label_5_train, label_6_train, label_7_train, label_8_train;
     
-    Font stationFont = new Font("Georgia", Font.PLAIN, 20);
+    Font stationFont = new Font("Dialog", Font.PLAIN, 20);
     
     public StationVisualPanel(){
         this.setLayout(new MigLayout("", "[150,fill, grow]", "[150,fill]"));
@@ -27,65 +27,73 @@ public class StationVisualPanel extends JPanel{
         
         label_1_train = new JLabel("");
         label_1_train.setFont(stationFont);
+        label_1_train.setForeground(Color.white);
         
         label_2_train = new JLabel("");
         label_2_train.setFont(stationFont);
+        label_2_train.setForeground(Color.white);
         
         label_3_train = new JLabel("");
         label_3_train.setFont(stationFont);
+        label_3_train.setForeground(Color.white);
         
         label_4_train = new JLabel("");
         label_4_train.setFont(stationFont);
+        label_4_train.setForeground(Color.white);
         
         label_5_train = new JLabel("");
         label_5_train.setFont(stationFont);
+        label_5_train.setForeground(Color.white);
         
         label_6_train = new JLabel("");
         label_6_train.setFont(stationFont);
+        label_6_train.setForeground(Color.white);
         
         label_7_train = new JLabel("");
         label_7_train.setFont(stationFont);
+        label_7_train.setForeground(Color.white);
         
         label_8_train = new JLabel("");
         label_8_train.setFont(stationFont);
+        label_8_train.setForeground(Color.white);
         
         Station1Panel = new JPanel(new MigLayout());
-        Station1Panel.setBackground(Color.cyan);
+        Station1Panel.setBackground(Color.green);
         Station1Panel.add(new JLabel("Station1"), "pushx, center, wrap 10");
         Station1Panel.add(label_1_train, "pushx, center");
         
         Station2Panel = new JPanel(new MigLayout());
-        Station2Panel.setBackground(Color.cyan);
+        Station2Panel.setBackground(Color.green);
         Station2Panel.add(new JLabel("Station2"), "pushx, center, wrap 10");
         Station2Panel.add(label_2_train, "pushx, center");
         
         Station3Panel = new JPanel(new MigLayout());
-        Station3Panel.setBackground(Color.cyan);
+        Station3Panel.setBackground(Color.green);
         Station3Panel.add(new JLabel("Station3"), "pushx, center, wrap 10");
         Station3Panel.add(label_3_train, "pushx, center");
         
         Station4Panel = new JPanel(new MigLayout());
-        Station4Panel.setBackground(Color.cyan);
+        Station4Panel.setBackground(Color.green);
         Station4Panel.add(new JLabel("Station4"), "pushx, center, wrap 10");
         Station4Panel.add(label_4_train, "pushx, center");
         
         Station5Panel = new JPanel(new MigLayout());
-        Station5Panel.setBackground(Color.cyan);
+        Station5Panel.setBackground(Color.green);
         Station5Panel.add(new JLabel("Station5"), "pushx, center, wrap 10");
         Station5Panel.add(label_5_train, "pushx, center");
         
         Station6Panel = new JPanel(new MigLayout());
-        Station6Panel.setBackground(Color.cyan);
+        Station6Panel.setBackground(Color.green);
         Station6Panel.add(new JLabel("Station6"), "pushx, center, wrap 10");
         Station6Panel.add(label_6_train, "pushx, center");
         
         Station7Panel = new JPanel(new MigLayout());
-        Station7Panel.setBackground(Color.cyan);
+        Station7Panel.setBackground(Color.green);
         Station7Panel.add(new JLabel("Station7"), "pushx, center, wrap 10");
         Station7Panel.add(label_7_train, "pushx, center");
         
         Station8Panel = new JPanel(new MigLayout());
-        Station8Panel.setBackground(Color.cyan);
+        Station8Panel.setBackground(Color.green);
         Station8Panel.add(new JLabel("Station8"), "pushx, center, wrap 10");
         Station8Panel.add(label_8_train, "pushx, center");
     }

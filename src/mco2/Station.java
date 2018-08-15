@@ -27,70 +27,71 @@ public class Station {
 	
 	public void trainArrived() {
 		switch(id){
-        case 1:        			StationVisualPanel.Station1Panel.setBackground(Color.decode("#ffc107"));
+        case 1:        			StationVisualPanel.Station1Panel.setBackground(Color.MAGENTA);
         						StationVisualPanel.label_1_train.setText("Train#"+currentTrain.getId());
         						break;
                                 
-        case 2:      			StationVisualPanel.Station2Panel.setBackground(Color.decode("#ffc107"));
+        case 2:      			StationVisualPanel.Station2Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_2_train.setText("Train#"+currentTrain.getId());
+								
 								break;
 								
-		case 3:        			StationVisualPanel.Station3Panel.setBackground(Color.decode("#ffc107"));
+		case 3:        			StationVisualPanel.Station3Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_3_train.setText("Train#"+currentTrain.getId());
 								break;
 								
-		case 4:        			StationVisualPanel.Station4Panel.setBackground(Color.decode("#ffc107"));
+		case 4:        			StationVisualPanel.Station4Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_4_train.setText("Train#"+currentTrain.getId());
 								break; 
 								
-		case 5:       			StationVisualPanel.Station5Panel.setBackground(Color.decode("#ffc107"));
+		case 5:       			StationVisualPanel.Station5Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_5_train.setText("Train#"+currentTrain.getId());
 								break;
 								
-		case 6:        			StationVisualPanel.Station6Panel.setBackground(Color.decode("#ffc107"));
+		case 6:        			StationVisualPanel.Station6Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_6_train.setText("Train#"+currentTrain.getId());
 								break; 
 								
-		case 7:        			StationVisualPanel.Station7Panel.setBackground(Color.decode("#ffc107"));
+		case 7:        			StationVisualPanel.Station7Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_7_train.setText("Train#"+currentTrain.getId());
 								break; 
 								
-		case 8:        			StationVisualPanel.Station8Panel.setBackground(Color.decode("#ffc107"));
+		case 8:        			StationVisualPanel.Station8Panel.setBackground(Color.MAGENTA);
 								StationVisualPanel.label_8_train.setText("Train#"+currentTrain.getId());
 								break;
 		}
 	}
 	public void trainLeft() {
 		switch(id){
-        case 1:        			StationVisualPanel.Station1Panel.setBackground(Color.cyan);
+        case 1:        			StationVisualPanel.Station1Panel.setBackground(Color.green);
         						StationVisualPanel.label_1_train.setText("");
                                 break;
                                 
-        case 2:      			StationVisualPanel.Station2Panel.setBackground(Color.cyan);
+        case 2:      			StationVisualPanel.Station2Panel.setBackground(Color.green);
 								StationVisualPanel.label_2_train.setText("");
 								break;
 								
-        case 3:        			StationVisualPanel.Station3Panel.setBackground(Color.cyan);
+        case 3:        			StationVisualPanel.Station3Panel.setBackground(Color.green);
 								StationVisualPanel.label_3_train.setText("");
 								break;
 								
-        case 4:        			StationVisualPanel.Station4Panel.setBackground(Color.cyan);
+        case 4:        			StationVisualPanel.Station4Panel.setBackground(Color.green);
 								StationVisualPanel.label_4_train.setText("");
 								break; 
 								
-        case 5:       			StationVisualPanel.Station5Panel.setBackground(Color.cyan);
+        case 5:       			StationVisualPanel.Station5Panel.setBackground(Color.green);
 								StationVisualPanel.label_5_train.setText("");
 								break;
 								
-        case 6:        			StationVisualPanel.Station6Panel.setBackground(Color.cyan);
+        case 6:        			StationVisualPanel.Station6Panel.setBackground(Color.green);
 								StationVisualPanel.label_6_train.setText("");
 								break;  
 								
-        case 7:        			StationVisualPanel.Station7Panel.setBackground(Color.cyan);
+        case 7:        			StationVisualPanel.Station7Panel.setBackground(Color.green);
 								StationVisualPanel.label_7_train.setText("");
 								break;   
 								
-        case 8:        			StationVisualPanel.Station8Panel.setBackground(Color.cyan);
+        case 8:        			StationVisualPanel.Station8Panel.setBackground(Color.green);
 								StationVisualPanel.label_8_train.setText("");
 								break;                  
     	}
@@ -98,7 +99,7 @@ public class Station {
 	public void addTrainIntoStation(Train train) {
 		synchronized(boardingLock) {
 			this.currentTrain = train;
-			System.out.println("Train " + train.getName() + " loaded in station " + this.id);
+			System.out.println("Train " + train.getName() + " arrived in station " + this.id);
 			boardingLock.notifyAll();
 		}
 	}

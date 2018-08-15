@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,16 +16,11 @@ import test.threadTest;
 public class ManagePassengerPanel extends JPanel implements ActionListener {
     
     JButton	button_add_passengers;
-    
-    Font labelFont = new Font("Trebuchet MS", Font.PLAIN + Font.BOLD, 14);
         
     public ManagePassengerPanel(){
         this.setLayout(new MigLayout("", "[]20[]", ""));
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
-        this.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "", TitledBorder.CENTER, TitledBorder.TOP));
-
-        
+  
         buildComponents();
         assembleComponents();
     }
@@ -51,7 +45,7 @@ public class ManagePassengerPanel extends JPanel implements ActionListener {
 				threadTest.randStart = ThreadLocalRandom.current().nextInt(threadTest.min, threadTest.max + 1);
 				threadTest.randDestination = ThreadLocalRandom.current().nextInt(threadTest.min, threadTest.max + 1);
 			}
-			System.out.println(threadTest.randStart + " " + threadTest.randDestination);
+			//System.out.println(threadTest.randStart + " " + threadTest.randDestination);
 			Passenger p = new Passenger(threadTest.idCounter, Train.stations.get(threadTest.randStart - 1), Train.stations.get(threadTest.randDestination - 1));
 
 			p.start();

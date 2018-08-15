@@ -115,23 +115,24 @@ public class Station {
     public synchronized void load_train(int train_freeSeats){
         this.acquire_mutex();
         try{
-            System.out.println("Arrived at Station " + this.getId());
+            System.out.println("Train#" + Train.getId() + " arrived at Station " + this.getId());
             trainArrived();
             Thread.sleep(1500);
          }catch(InterruptedException e){
              System.out.println(e);
          }
         
-        System.out.println("Train#"+currentTrain.getId()+" is now boarding passengers");
+        //System.out.println("Train#"+currentTrain.getId()+" is now boarding passengers");
         if(curPassengers == 0){
-            System.out.println("No passengers in station " + this.getId());
+            //System.out.println("No passengers in station " + this.getId());
         }else if(train_freeSeats == 0){
             System.out.println("Train is full! Train is leaving station");
         }else{
-            System.out.println("Passengers boarding");
+            //System.out.println("Passengers boarding");
             this.notifyAll();
         }
-        this.release_mutex();     
+        this.release_mutex();
+        System.out.println("Train#" + Train.getId() + " left Station " + this.getId());
         trainLeft();
     }
     
@@ -157,16 +158,15 @@ public class Station {
      */
     public void generatePassengers(int numPassengers, int destStation){
         this.curPassengers += numPassengers;
-        
+        Passenger p = null;
         for(int i=0;i<numPassengers;i++){
             int dropoffStation = uniqueDest(destStation);
-            Passenger p = new Passenger(destStation,dropoffStation,this);
+            p = new Passenger(destStation,dropoffStation,this);
             passengers.add(p);
             station_robots.add(new Thread(p));
             station_robots.get(station_robots.size()-1).start();
         }
-        System.out.println("Station [" + this.id + "] now has " 
-                + this.curPassengers+ " waiting");
+        System.out.println("Passenger " + p.getId() + " is going to Station "+ destStation);
     }
     
     /**
@@ -192,11 +192,11 @@ public class Station {
                 currentTrain.addPassenger(p);
                 station_robots.remove(p);
                 
-                System.out.println("train[" + currentTrain.getId()+ "]:");
-                System.out.println("Passenger " + p.getId()+ " has boarded the train");
-                System.out.println("Available seats left: " + currentTrain.getAvailableSeats());
+                //System.out.println("train[" + currentTrain.getId()+ "]:");
+                System.out.println("Passenger " + p.getId()+ " has boarded the Train#"+ currentTrain.getId());
+                //System.out.println("Available seats left: " + currentTrain.getAvailableSeats());
             }
-            System.out.println("Passengers onboard: " + currentTrain.getOccupied_seats());
+            //System.out.println("Passengers onboard: " + currentTrain.getOccupied_seats());
             setWaiting(id, curPassengers);
             Train.update();
             

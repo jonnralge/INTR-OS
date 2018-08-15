@@ -14,7 +14,7 @@ public class SStationVisualPanel extends JPanel{
     
     public static JLabel label_1_train, label_2_train, label_3_train, label_4_train, label_5_train, label_6_train, label_7_train, label_8_train;
     
-    Font stationFont = new Font("Georgia", Font.PLAIN, 20);
+    Font stationFont = new Font("Dialog", Font.PLAIN, 20);
     
     public SStationVisualPanel(){
         this.setLayout(new MigLayout("", "[150,fill, grow]", "[150,fill]"));

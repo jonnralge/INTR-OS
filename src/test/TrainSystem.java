@@ -43,8 +43,6 @@ public class TrainSystem {
             System.out.println(capacity);
             STrainVisualPanel.trainName.get(numOfTrains).setText("Train#"+Long.toString(t.getId()));
             STrainVisualPanel.trainSeats.get(numOfTrains).setText(t.getOccupied_seats() + "/" + capacity);
-            STrainVisualPanel.trainStatusHead.get(numOfTrains).setText("<html><u>Status:</u></html>");
-            STrainVisualPanel.trainStatus.get(numOfTrains).setText("");
             
             train_threads[numOfTrains] = new Thread(t);
             train_threads[numOfTrains].start();
