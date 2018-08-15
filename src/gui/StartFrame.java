@@ -51,7 +51,6 @@ public class StartFrame extends JFrame implements ActionListener{
             GUI.startFrame = new SStationFrame();
 
     		TrainSystem t = new TrainSystem();
-            System.out.print("Semaphore Not Available");
         }
         else if(monitor.isSelected()){
         	this.setVisible(false);

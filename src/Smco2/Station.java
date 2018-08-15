@@ -2,13 +2,10 @@ package Smco2;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import Sgui.SPassengerWaitingPanel;
 import Sgui.SStationVisualPanel;
-import gui.PassengerWaitingPanel;
-import gui.StationVisualPanel;
 
 public class Station {
 
@@ -163,7 +160,7 @@ public class Station {
     public void passengers_boarded(Passenger p){        
         this.acquire_mutex();
         try{
-            if(currentTrain.getAvailable_seats() == 0){
+            if(currentTrain.getAvailableSeats() == 0){
                 this.release_mutex();
                 waiting_for_train(p);
             }else{
@@ -182,7 +179,10 @@ public class Station {
                 System.out.println("train[" + currentTrain.getId()+ "]:");
                 System.out.println("Passenger " + p.getId()+ " has boarded the train");
                 System.out.println("Available seats left: " + currentTrain.getAvailableSeats());
-            }   System.out.println("Passengers onboard: " + currentTrain.getOccupied_seats());
+            }
+            System.out.println("Passengers onboard: " + currentTrain.getOccupied_seats());
+            setWaiting(id, curPassengers);
+            Train.update();
             
         }catch(Exception e){
             System.out.println(e);

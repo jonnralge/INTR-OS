@@ -1,10 +1,5 @@
 package Smco2;
 
-import static test.TrainSystem.*;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class Passenger implements Runnable{   
     private int id;
     private int startStation;
@@ -59,6 +54,5 @@ public class Passenger implements Runnable{
     @Override
     public void run(){
         station.waiting_for_train(this);
-    }
-    
+    } 
 }

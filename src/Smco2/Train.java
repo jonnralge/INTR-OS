@@ -1,11 +1,8 @@
 package Smco2;
 
-import static test.Driver.*;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
-
 import Sgui.STrainVisualPanel;
-import gui.TrainVisualPanel;
 
 public class Train implements Runnable{
     private static int id;
