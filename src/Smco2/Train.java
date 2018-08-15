@@ -1,6 +1,7 @@
 package Smco2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.Semaphore;
 import Sgui.STrainVisualPanel;
 
@@ -217,6 +218,7 @@ public class Train implements Runnable{
         } 	    
         passengers.removeAll(passenger_dropoffs);
         availableSeats.release(passenger_dropoffs.size());
+        update();
     }
     
     public void runTrain(){
