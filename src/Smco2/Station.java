@@ -163,7 +163,7 @@ public class Station {
     public void passengers_boarded(Passenger p){        
         this.acquire_mutex();
         try{
-            if(currentTrain.getOccupied_seats() == 0){
+            if(currentTrain.getAvailable_seats() == 0){
                 this.release_mutex();
                 waiting_for_train(p);
             }else{
