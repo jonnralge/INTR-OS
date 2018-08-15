@@ -196,16 +196,18 @@ public class Train implements Runnable{
      * passenger_dropoffs from array list passengers
      */
     public void unloadPassengers(){       
-        //System.out.println("Unloading Passengers");
+        System.out.println("Unloading Passengers");
         passenger_dropoffs.clear();
-        for(Passenger p : passengers){
+        Iterator<Passenger> i = passengers.iterator();
+        while(i.hasNext()){
+            Passenger p = i.next();
             if(p.getDestStation()==this.getCurPos())
             {
                 this.occupied_seats--;
                 passenger_dropoffs.add(p);
-		System.out.println("Passenger " + p.getId() + " has unboarded train");
-                //update();
+                System.out.println("Passenger " + p.getId() + " has unboarded train");
             }else{
+                p.updateDestination();
             }                    
         }
         passengers.removeAll(passenger_dropoffs);
