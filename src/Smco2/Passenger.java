@@ -2,15 +2,17 @@ package Smco2;
 
 public class Passenger implements Runnable{   
     private int id;
-    private int startStation;
-    private static int totalPassengerCount;  
+    private int startStation; //0-7 station id
+    private int destStation;
+    private static int totalPassengerCount; //track total number of spawned passengers    
     private final Station station;
-    private String status;
+    private String status; //WAITING, ONBOARD
 
-    public Passenger(int startStation,Station s) {
+    public Passenger(int startStation,int destStation,Station s) {
         totalPassengerCount++;
         this.id = totalPassengerCount;
         this.startStation = startStation;
+        this.destStation = destStation;
         station = s;
         this.status = "WAITING";
     }
@@ -50,6 +52,10 @@ public class Passenger implements Runnable{
     public void updateDestination(){
         this.startStation--;
     }
+    
+    public int getDestStation() {
+        return destStation;
+    }    
     
     @Override
     public void run(){
