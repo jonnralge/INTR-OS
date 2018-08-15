@@ -66,7 +66,7 @@ public class TrainSystem {
     public static int uniqueDest(int given){
         int n;
         do{
-            n = randNum(1,numStations);
+            n = randNum(numStations, 1);
         }while(given == n);
         return n;
     }
